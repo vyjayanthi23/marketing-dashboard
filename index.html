@@ -166,6 +166,68 @@
       transition: width 0.4s ease;
     }
 
+    /* Filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      background: white;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+    }
+
+    .filters label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #888;
+      margin-right: 4px;
+    }
+
+    .filters select, .filters input[type="text"] {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 0.85rem;
+      color: #1a1a2e;
+      background: #fafafa;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .filters select:focus, .filters input[type="text"]:focus {
+      border-color: #5c6bc0;
+      background: white;
+    }
+
+    .filters input[type="text"] { min-width: 200px; }
+
+    .filter-group { display: flex; align-items: center; gap: 6px; }
+
+    .filters .reset-btn {
+      margin-left: auto;
+      padding: 7px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #f0f0f5;
+      color: #5c6bc0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .filters .reset-btn:hover { background: #e0e0f0; }
+
+    .no-results {
+      text-align: center;
+      padding: 32px;
+      color: #bbb;
+      font-size: 0.9rem;
+    }
+
     #loading {
       text-align: center;
       padding: 80px;
@@ -188,6 +250,32 @@
   <div id="dashboard">
 
     <div class="cards" id="summary-cards"></div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-group">
+        <label for="filter-channel">Channel</label>
+        <select id="filter-channel">
+          <option value="">All Channels</option>
+          <option value="Email">Email</option>
+          <option value="Social">Social</option>
+          <option value="Display">Display</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-status">Status</label>
+        <select id="filter-status">
+          <option value="">All Statuses</option>
+          <option value="Active">Active</option>
+          <option value="Paused">Paused</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-search">Search</label>
+        <input type="text" id="filter-search" placeholder="Campaign name..." />
+      </div>
+      <button class="reset-btn" id="reset-filters">Reset</button>
+    </div>
 
     <div class="charts">
       <div class="chart-box">
@@ -227,6 +315,38 @@
     ? (n / 1_000_000).toFixed(1) + "M"
     : n >= 1_000 ? (n / 1_000).toFixed(1) + "K" : n;
 
+  let allCampaigns = [];
+  let reachChart, trendChart;
+
+  function getFiltered() {
+    const channel = document.getElementById("filter-channel").value;
+    const status  = document.getElementById("filter-status").value;
+    const search  = document.getElementById("filter-search").value.trim().toLowerCase();
+    return allCampaigns.filter(c =>
+      (!channel || c.channel === channel) &&
+      (!status  || c.status  === status)  &&
+      (!search  || c.name.toLowerCase().includes(search))
+    );
+  }
+
+  function applyFilters() {
+    const filtered = getFiltered();
+    updateReachChart(filtered);
+    updateTrendChart(filtered);
+    renderTable(filtered);
+  }
+
+  ["filter-channel", "filter-status", "filter-search"].forEach(id =>
+    document.getElementById(id).addEventListener("input", applyFilters)
+  );
+
+  document.getElementById("reset-filters").addEventListener("click", () => {
+    document.getElementById("filter-channel").value = "";
+    document.getElementById("filter-status").value  = "";
+    document.getElementById("filter-search").value  = "";
+    applyFilters();
+  });
+
   fetch("data/metrics.json")
     .then(r => r.json())
     .then(data => {
@@ -237,10 +357,11 @@
       document.getElementById("refresh-time").textContent =
         "Last updated: " + ts.toLocaleString("en-US", { month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" });
 
+      allCampaigns = data.campaigns;
       renderCards(data.summary);
-      renderReachChart(data.campaigns);
-      renderTrendChart(data.campaigns);
-      renderTable(data.campaigns);
+      reachChart = initReachChart(allCampaigns);
+      trendChart = initTrendChart(allCampaigns);
+      renderTable(allCampaigns);
     })
     .catch(() => {
       document.getElementById("loading").textContent =
@@ -263,10 +384,10 @@
     `).join("");
   }
 
-  function renderReachChart(campaigns) {
+  function initReachChart(campaigns) {
     const ctx = document.getElementById("reach-chart").getContext("2d");
     const labels = campaigns.map(c => c.name.length > 22 ? c.name.slice(0, 22) + "…" : c.name);
-    new Chart(ctx, {
+    return new Chart(ctx, {
       type: "bar",
       data: {
         labels,
@@ -288,17 +409,22 @@
     });
   }
 
-  function renderTrendChart(campaigns) {
+  function updateReachChart(campaigns) {
+    reachChart.data.labels = campaigns.map(c => c.name.length > 22 ? c.name.slice(0, 22) + "…" : c.name);
+    reachChart.data.datasets[0].data = campaigns.map(c => c.reach);
+    reachChart.data.datasets[0].backgroundColor = campaigns.map((_, i) => COLORS[i % COLORS.length] + "cc");
+    reachChart.data.datasets[0].borderColor = campaigns.map((_, i) => COLORS[i % COLORS.length]);
+    reachChart.update();
+  }
+
+  function initTrendChart(campaigns) {
     const active = campaigns.filter(c => c.status === "Active");
     const dates = active[0]?.daily_trend.map(d => d.date) ?? [];
     const ctx = document.getElementById("trend-chart").getContext("2d");
-    new Chart(ctx, {
+    return new Chart(ctx, {
       type: "line",
       data: {
-        labels: dates.map(d => {
-          const [, m, day] = d.split("-");
-          return `${parseInt(m)}/${parseInt(day)}`;
-        }),
+        labels: dates.map(d => { const [,m,day] = d.split("-"); return `${parseInt(m)}/${parseInt(day)}`; }),
         datasets: active.map((c, i) => ({
           label: c.name.length > 20 ? c.name.slice(0, 20) + "…" : c.name,
           data: c.daily_trend.map(d => d.reach),
@@ -319,9 +445,29 @@
     });
   }
 
+  function updateTrendChart(campaigns) {
+    const active = campaigns.filter(c => c.status === "Active");
+    const dates = active[0]?.daily_trend.map(d => d.date) ?? [];
+    trendChart.data.labels = dates.map(d => { const [,m,day] = d.split("-"); return `${parseInt(m)}/${parseInt(day)}`; });
+    trendChart.data.datasets = active.map((c, i) => ({
+      label: c.name.length > 20 ? c.name.slice(0, 20) + "…" : c.name,
+      data: c.daily_trend.map(d => d.reach),
+      borderColor: COLORS[i % COLORS.length],
+      backgroundColor: COLORS[i % COLORS.length] + "18",
+      tension: 0.4,
+      fill: false,
+      pointRadius: 3,
+    }));
+    trendChart.update();
+  }
+
   function renderTable(campaigns) {
-    const maxReach = Math.max(...campaigns.map(c => c.reach));
     const tbody = document.getElementById("campaign-table");
+    if (campaigns.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7"><div class="no-results">No campaigns match your filters.</div></td></tr>`;
+      return;
+    }
+    const maxReach = Math.max(...campaigns.map(c => c.reach));
     tbody.innerHTML = campaigns.map((c, i) => `
       <tr>
         <td style="font-weight:500">${c.name}</td>
