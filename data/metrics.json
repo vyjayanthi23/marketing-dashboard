@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-22T10:46:47Z",
+  "generated_at": "2026-05-23T09:48:34Z",
   "summary": {
-    "total_reach": 193101,
-    "total_impressions": 395235,
-    "total_clicks": 11086,
-    "total_conversions": 1728,
-    "avg_ctr": 0.028,
+    "total_reach": 170638,
+    "total_impressions": 422648,
+    "total_clicks": 9794,
+    "total_conversions": 1397,
+    "avg_ctr": 0.0232,
     "active_campaigns": 4
   },
   "campaigns": [
@@ -13,40 +13,40 @@
       "name": "Spring Sale 2026",
       "channel": "Email",
       "status": "Active",
-      "reach": 46362,
-      "impressions": 84863,
-      "clicks": 1430,
-      "conversions": 176,
-      "open_rate": 0.243,
-      "ctr": 0.0169,
+      "reach": 9767,
+      "impressions": 15800,
+      "clicks": 743,
+      "conversions": 73,
+      "open_rate": 0.312,
+      "ctr": 0.047,
       "daily_trend": [
         {
-          "date": "2026-05-16",
-          "reach": 57592
-        },
-        {
           "date": "2026-05-17",
-          "reach": 35426
+          "reach": 11643
         },
         {
           "date": "2026-05-18",
-          "reach": 41859
+          "reach": 10067
         },
         {
           "date": "2026-05-19",
-          "reach": 50550
+          "reach": 9822
         },
         {
           "date": "2026-05-20",
-          "reach": 41263
+          "reach": 8723
         },
         {
           "date": "2026-05-21",
-          "reach": 51688
+          "reach": 11467
         },
         {
           "date": "2026-05-22",
-          "reach": 44459
+          "reach": 8211
+        },
+        {
+          "date": "2026-05-23",
+          "reach": 11418
         }
       ]
     },
@@ -54,40 +54,40 @@
       "name": "Product Launch - Pro Plan",
       "channel": "Social",
       "status": "Active",
-      "reach": 63273,
-      "impressions": 171369,
-      "clicks": 6315,
-      "conversions": 938,
+      "reach": 66182,
+      "impressions": 141417,
+      "clicks": 4863,
+      "conversions": 891,
       "open_rate": null,
-      "ctr": 0.0369,
+      "ctr": 0.0344,
       "daily_trend": [
         {
-          "date": "2026-05-16",
-          "reach": 68757
-        },
-        {
           "date": "2026-05-17",
-          "reach": 61570
+          "reach": 72060
         },
         {
           "date": "2026-05-18",
-          "reach": 63568
+          "reach": 70473
         },
         {
           "date": "2026-05-19",
-          "reach": 51977
+          "reach": 60832
         },
         {
           "date": "2026-05-20",
-          "reach": 70082
+          "reach": 49826
         },
         {
           "date": "2026-05-21",
-          "reach": 47557
+          "reach": 80888
         },
         {
           "date": "2026-05-22",
-          "reach": 74300
+          "reach": 76005
+        },
+        {
+          "date": "2026-05-23",
+          "reach": 54820
         }
       ]
     },
@@ -95,40 +95,40 @@
       "name": "Weekly Newsletter",
       "channel": "Email",
       "status": "Active",
-      "reach": 37815,
-      "impressions": 67164,
-      "clicks": 1841,
-      "conversions": 328,
-      "open_rate": 0.299,
-      "ctr": 0.0274,
+      "reach": 16989,
+      "impressions": 47583,
+      "clicks": 1427,
+      "conversions": 196,
+      "open_rate": 0.298,
+      "ctr": 0.03,
       "daily_trend": [
         {
-          "date": "2026-05-16",
-          "reach": 42387
-        },
-        {
           "date": "2026-05-17",
-          "reach": 44215
+          "reach": 18929
         },
         {
           "date": "2026-05-18",
-          "reach": 42897
+          "reach": 13687
         },
         {
           "date": "2026-05-19",
-          "reach": 46990
+          "reach": 19275
         },
         {
           "date": "2026-05-20",
-          "reach": 30375
+          "reach": 21181
         },
         {
           "date": "2026-05-21",
-          "reach": 35139
+          "reach": 17243
         },
         {
           "date": "2026-05-22",
-          "reach": 33023
+          "reach": 21137
+        },
+        {
+          "date": "2026-05-23",
+          "reach": 15957
         }
       ]
     },
@@ -136,40 +136,40 @@
       "name": "Re-engagement Campaign",
       "channel": "Email",
       "status": "Paused",
-      "reach": 49776,
-      "impressions": 86566,
-      "clicks": 5274,
-      "conversions": 448,
-      "open_rate": 0.363,
-      "ctr": 0.0609,
+      "reach": 78181,
+      "impressions": 224450,
+      "clicks": 5989,
+      "conversions": 745,
+      "open_rate": 0.34,
+      "ctr": 0.0267,
       "daily_trend": [
         {
-          "date": "2026-05-16",
-          "reach": 48736
-        },
-        {
           "date": "2026-05-17",
-          "reach": 47114
+          "reach": 88609
         },
         {
           "date": "2026-05-18",
-          "reach": 52233
+          "reach": 59335
         },
         {
           "date": "2026-05-19",
-          "reach": 48217
+          "reach": 87643
         },
         {
           "date": "2026-05-20",
-          "reach": 48137
+          "reach": 73904
         },
         {
           "date": "2026-05-21",
-          "reach": 53617
+          "reach": 79330
         },
         {
           "date": "2026-05-22",
-          "reach": 62013
+          "reach": 62331
+        },
+        {
+          "date": "2026-05-23",
+          "reach": 79161
         }
       ]
     },
@@ -177,40 +177,40 @@
       "name": "Brand Awareness Q2",
       "channel": "Display",
       "status": "Active",
-      "reach": 45651,
-      "impressions": 71839,
-      "clicks": 1500,
-      "conversions": 286,
+      "reach": 77700,
+      "impressions": 217848,
+      "clicks": 2761,
+      "conversions": 237,
       "open_rate": null,
-      "ctr": 0.0209,
+      "ctr": 0.0127,
       "daily_trend": [
         {
-          "date": "2026-05-16",
-          "reach": 42269
-        },
-        {
           "date": "2026-05-17",
-          "reach": 46819
+          "reach": 61963
         },
         {
           "date": "2026-05-18",
-          "reach": 47070
+          "reach": 79754
         },
         {
           "date": "2026-05-19",
-          "reach": 39960
+          "reach": 83491
         },
         {
           "date": "2026-05-20",
-          "reach": 45364
+          "reach": 59555
         },
         {
           "date": "2026-05-21",
-          "reach": 47419
+          "reach": 72574
         },
         {
           "date": "2026-05-22",
-          "reach": 51385
+          "reach": 61746
+        },
+        {
+          "date": "2026-05-23",
+          "reach": 73052
         }
       ]
     }
